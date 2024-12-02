@@ -96,6 +96,23 @@ namespace Server
             }
         }
 
+        static void DisconnectServer(string Command)
+        {
+            try
+            {
+                string Token = Command.Replace("/disconnect ", "");
+                var DisconnectClient = AllClients.Find(x => x.Token == Token);
+                AllClients.Remove(DisconnectClient);
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine($"Client: {Token} disconnect from server");
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        }
+
         static void ConnectServer()
         {
             IPEndPoint EndPoint = new IPEndPoint(ServerIPAddress, ServerPort);
