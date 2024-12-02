@@ -1,0 +1,7 @@
+C:\Users\kiril\Desktop\ПР5\LicenseManager\Server\bin\Debug\Server.exe.config
+C:\Users\kiril\Desktop\ПР5\LicenseManager\Server\bin\Debug\Server.exe
+C:\Users\kiril\Desktop\ПР5\LicenseManager\Server\bin\Debug\Server.pdb
+C:\Users\kiril\Desktop\ПР5\LicenseManager\Server\obj\Debug\Server.csproj.AssemblyReference.cache
+C:\Users\kiril\Desktop\ПР5\LicenseManager\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
+C:\Users\kiril\Desktop\ПР5\LicenseManager\Server\obj\Debug\Server.exe
+C:\Users\kiril\Desktop\ПР5\LicenseManager\Server\obj\Debug\Server.pdb
