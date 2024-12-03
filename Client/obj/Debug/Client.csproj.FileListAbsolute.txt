@@ -5,3 +5,10 @@ C:\Users\Anastasia\Desktop\MDK_02_02_PR5\Client\obj\Debug\Client.csproj.Assembly
 C:\Users\Anastasia\Desktop\MDK_02_02_PR5\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
 C:\Users\Anastasia\Desktop\MDK_02_02_PR5\Client\obj\Debug\Client.exe
 C:\Users\Anastasia\Desktop\MDK_02_02_PR5\Client\obj\Debug\Client.pdb
+C:\Users\kiril\Desktop\MDK_02_02_PR5\Client\bin\Debug\Client.exe.config
+C:\Users\kiril\Desktop\MDK_02_02_PR5\Client\bin\Debug\Client.exe
+C:\Users\kiril\Desktop\MDK_02_02_PR5\Client\bin\Debug\Client.pdb
+C:\Users\kiril\Desktop\MDK_02_02_PR5\Client\obj\Debug\Client.csproj.AssemblyReference.cache
+C:\Users\kiril\Desktop\MDK_02_02_PR5\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
+C:\Users\kiril\Desktop\MDK_02_02_PR5\Client\obj\Debug\Client.exe
+C:\Users\kiril\Desktop\MDK_02_02_PR5\Client\obj\Debug\Client.pdb

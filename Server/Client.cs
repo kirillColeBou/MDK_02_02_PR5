@@ -8,17 +8,22 @@ namespace Server
 {
     public class Client
     {
-        public int Id { get; set; }
         public string Token { get; set; }
         public DateTime DateConnect { get; set; }
-        public bool IsBlackList { get; set; }
+        public string Username { get; set; }
 
-        public Client()
+        public Client() 
+        { 
+            this.Token = GenerateToken();
+            DateConnect = DateTime.Now;
+        }
+
+        public static string GenerateToken()
         {
             Random rnd = new Random();
             string Chars = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890";
-            this.Token = new string(Enumerable.Repeat(Chars, 15).Select(x => x[rnd.Next(Chars.Length)]).ToArray());
-            DateConnect = DateTime.Now;
+            string Token = new string(Enumerable.Repeat(Chars, 15).Select(x => x[rnd.Next(Chars.Length)]).ToArray());
+            return Token;
         }
     }
 }
