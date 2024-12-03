@@ -103,5 +103,40 @@ namespace Client
                 }
             }
         }
+
+        static void CheckToken()
+        {
+            while (true)
+            {
+                if (!String.IsNullOrEmpty(ClientToken))
+                {
+                    IPEndPoint EndPoint = new IPEndPoint(ServerIPAddress, ServerPort);
+                    Socket Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                    try
+                    {
+                        Socket.Connect(EndPoint);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Error: " + ex.Message);
+                    }
+                    if (Socket.Connected)
+                    {
+                        Socket.Send(Encoding.UTF8.GetBytes(ClientToken));
+                        byte[] bytes = new byte[10485760];
+                        int byteRec = Socket.Receive(bytes);
+                        string Response = Encoding.UTF8.GetString(bytes, 0, byteRec);
+                        if (Response == "/disconnect")
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("The client is disconnected from server");
+                            ClientToken = String.Empty;
+                        }
+                    }
+                }
+                Thread.Sleep(1000);
+            }
+        }
     }
 }
