@@ -62,17 +62,26 @@ namespace Client
             switch (Command)
             {
                 case "/config": File.Delete(Directory.GetCurrentDirectory() + "/.config"); OnSettings(); break;
-                case "/connect": ConnectServer(); break;
+                case "/connect": AuthenticateUser(); break;
                 case "/status": GetStatus(); break;
                 case "/help": Help(); break;
             }
         }
 
-        static void ConnectServer()
+        static void AuthenticateUser()
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("Enter your username: ");
+            string username = Console.ReadLine();
+            Console.Write("Enter your password: ");
+            string password = Console.ReadLine();
+            ConnectServer(username, password);
+        }
+
+        static void ConnectServer(string username, string password)
         {
             IPEndPoint EndPoint = new IPEndPoint(ServerIPAddress, ServerPort);
             Socket Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
             try
             {
                 Socket.Connect(EndPoint);
@@ -81,19 +90,26 @@ namespace Client
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Error: " + ex.Message);
+                return;
             }
             if (Socket.Connected)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Connection to server successful");
-                Socket.Send(Encoding.UTF8.GetBytes("/token"));
+                string authCommand = $"/auth {username} {password}";
+                Socket.Send(Encoding.UTF8.GetBytes(authCommand));
                 byte[] bytes = new byte[10485760];
                 int byteRec = Socket.Receive(bytes);
                 string Response = Encoding.UTF8.GetString(bytes, 0, byteRec);
-                if (Response == "/limit")
+                if (Response == "/auth_failed")
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("There isn't enough space on the license server");
+                    Console.WriteLine("Authentication failed. Invalid username or password.");
+                }
+                else if (Response == "/blacklist")
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("You are in the blacklist. Connection denied.");
                 }
                 else
                 {
@@ -152,17 +168,14 @@ namespace Client
             Console.WriteLine("Command to the server: ");
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("/config");
-
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("  - set initial settings");
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("/connect");
-
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(" - connection to the server");
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("/status");
-
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("  - show list users");
         }

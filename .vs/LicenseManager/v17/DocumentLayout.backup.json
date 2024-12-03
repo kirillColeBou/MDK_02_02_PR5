@@ -3,10 +3,6 @@
   "WorkspaceRootPath": "C:\\Users\\kiril\\Desktop\\MDK_02_02_PR5\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FCF56FCC-2BE8-4F88-8F8A-340302F0D7AD}|Server\\Server.csproj|c:\\users\\kiril\\desktop\\mdk_02_02_pr5\\server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FCF56FCC-2BE8-4F88-8F8A-340302F0D7AD}|Server\\Server.csproj|solutionrelative:server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F4731816-6109-4FF1-8006-A415AC4B5E38}|Client\\Client.csproj|c:\\users\\kiril\\desktop\\mdk_02_02_pr5\\client\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F4731816-6109-4FF1-8006-A415AC4B5E38}|Client\\Client.csproj|solutionrelative:client\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -18,32 +14,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\kiril\\Desktop\\MDK_02_02_PR5\\Client\\Program.cs",
               "RelativeDocumentMoniker": "Client\\Program.cs",
               "ToolTip": "C:\\Users\\kiril\\Desktop\\MDK_02_02_PR5\\Client\\Program.cs",
               "RelativeToolTip": "Client\\Program.cs",
-              "ViewState": "AgIAAIUAAAAAAAAAAAAQwL4AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAJEAAAAAAAAAAAAvwLgAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-03T17:56:13.677Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\kiril\\Desktop\\MDK_02_02_PR5\\Server\\Program.cs",
-              "RelativeDocumentMoniker": "Server\\Program.cs",
-              "ToolTip": "C:\\Users\\kiril\\Desktop\\MDK_02_02_PR5\\Server\\Program.cs",
-              "RelativeToolTip": "Server\\Program.cs",
-              "ViewState": "AgIAABUBAAAAAAAAAAAowB8BAAA9AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-03T17:40:43.142Z",
               "EditorCaption": ""
             }
           ]

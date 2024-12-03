@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,9 +18,11 @@ namespace Server
         static int MaxClient;
         static int Duration;
         static List<Client> AllClients = new List<Client>();
+        static Context dbContext;
 
         static void Main(string[] args)
         {
+            dbContext = new Context();
             OnSettings();
             Thread tListner = new Thread(ConnectServer);
             tListner.Start();
@@ -91,13 +94,69 @@ namespace Server
                 case "/config": File.Delete(Directory.GetCurrentDirectory() + "/.config"); OnSettings(); break;
                 case "/status": GetStatus(); break;
                 case "/help": Help(); break;
+                case "/add_to_blacklist": AddToBlacklist(); break;
+                case "/remove_from_blacklist": RemoveFromBlacklist(); break;
+                case "/blacklist": dbContext.ShowBlacklist(); break;
                 default: if (Command.Contains("/disconnect")) DisconnectServer(Command); break;
             }
         }
 
+        static void AddToBlacklist()
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("Enter username to add to blacklist: ");
+            string username = Console.ReadLine();
+            dbContext.AddToBlacklist(username);
+            var client = AllClients.FirstOrDefault(c => c.Username == username);
+            if (client != null)
+            {
+                AllClients.Remove(client);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Client {client.Token} disconnected due to being added to blacklist.");
+            }
+        }
+
+        static void RemoveFromBlacklist()
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("Enter username to remove from blacklist: ");
+            string username = Console.ReadLine();
+            dbContext.RemoveFromBlacklist(username);
+        }
+
         static string SetCommandClient(string Command)
         {
-            if (Command == "/token")
+            if (Command.StartsWith("/auth "))
+            {
+                string[] parts = Command.Split(' ');
+                if (parts.Length == 3)
+                {
+                    string username = parts[1];
+                    string password = parts[2];
+                    if (dbContext.AuthenticateUser(username, password, out bool isBlackListed))
+                    {
+                        if (isBlackListed)
+                        {
+                            return "/blacklist";
+                        }
+                        var newClient = new Client { Token = Client.GenerateToken(), DateConnect = DateTime.Now, Username = username };
+                        AllClients.Add(newClient);
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"New client connection: {newClient.Token}");
+                        return newClient.Token;
+                    }
+                    else
+                    {
+                        return "/auth_failed";
+                    }
+                }
+                else
+                {
+                    return "/invalid_command";
+                }
+            }
+            else if (Command == "/token")
+            {
                 if (AllClients.Count < MaxClient)
                 {
                     var newClient = new Client();
@@ -112,6 +171,7 @@ namespace Server
                     Console.WriteLine("There isn't enough space on the license server");
                     return "/limit";
                 }
+            }
             else
             {
                 var Client = AllClients.Find(x => x.Token == Command);
@@ -144,12 +204,22 @@ namespace Server
             SocketListener.Listen(MaxClient);
             while (true)
             {
-                Socket Handler = SocketListener.Accept();
-                byte[] bytes = new byte[10485760];
-                int byteRec = Handler.Receive(bytes);
-                string Message = Encoding.UTF8.GetString(bytes, 0, byteRec);
-                string Response = SetCommandClient(Message);
-                Handler.Send(Encoding.UTF8.GetBytes(Response));
+                try
+                {
+                    Socket Handler = SocketListener.Accept();
+                    byte[] bytes = new byte[10485760];
+                    int byteRec = Handler.Receive(bytes);
+                    string Message = Encoding.UTF8.GetString(bytes, 0, byteRec);
+                    string Response = SetCommandClient(Message);
+                    Handler.Send(Encoding.UTF8.GetBytes(Response));
+                    Handler.Shutdown(SocketShutdown.Both);
+                    Handler.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Error: " + ex.Message);
+                }
             }
         }
 
@@ -181,6 +251,14 @@ namespace Server
             Console.Write("/status");
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("  - show list users");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("/add_to_blacklist");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(" - add user to blacklist");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("/remove_from_blacklist");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(" - remove user from blacklist");
         }
     }
 }
