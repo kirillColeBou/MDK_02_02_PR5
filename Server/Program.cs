@@ -139,6 +139,10 @@ namespace Server
                         {
                             return "/blacklist";
                         }
+                        if (AllClients.Count >= MaxClient)
+                        {
+                            return "/limit";
+                        }
                         var newClient = new Client { Token = Client.GenerateToken(), DateConnect = DateTime.Now, Username = username };
                         AllClients.Add(newClient);
                         Console.ForegroundColor = ConsoleColor.Red;
